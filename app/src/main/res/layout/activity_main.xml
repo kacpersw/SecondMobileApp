@@ -6,13 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.kacper.secondapp.MainActivity">
 
-    <menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <item android:id="@+id/new_game"
-            android:title="dasdsa" />
-        <item android:id="@+id/help"
-            android:title="sdas" />
-    </menu>
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mainLayout"
         xmlns:tools="http://schemas.android.com/tools"

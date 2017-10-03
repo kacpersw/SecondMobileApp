@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,21 +12,31 @@ import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+
 public class MainActivity extends Activity {
     private ArrayList<String> items;
     private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
-    Context context;
+    private Snackbar addMessage;
+    private Intent formIntent;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lvItems = (ListView) findViewById(R.id.lvItems);
+        lvItems = findViewById(R.id.lvItems);
         items = new ArrayList<String>();
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
+
+        formIntent = getIntent();
+        if(formIntent.getBooleanExtra(NewElementToDoActivity.CAN_I_SHOW_POP_UP,false)==true){
+            addMessage = Snackbar.make(findViewById(R.id.mainLayout), "You added new item to list.", Snackbar.LENGTH_LONG);
+            addMessage.show();
+        }
+
 
         initSingletons();
         addElementsToList();
@@ -41,9 +52,7 @@ public class MainActivity extends Activity {
                         Singleton.removeElementFromList(pos);
 
                         context = getApplicationContext();
-                        CharSequence text = "Item deleted";
-                        int duration = Toast.LENGTH_LONG;
-                        Toast toast = Toast.makeText(context, text, duration);
+                        Toast toast = Toast.makeText(context, "Item deleted", Toast.LENGTH_LONG);
                         toast.show();
 
                         itemsAdapter.notifyDataSetChanged();

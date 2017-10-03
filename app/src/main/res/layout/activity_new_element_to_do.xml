@@ -10,12 +10,27 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/typeOfItem"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="The name must be capitalized"/>
+
+        <EditText
+            android:id="@+id/dateOfItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="for example: 2012.02.03"/>
+
+        <EditText
+            android:id="@+id/hourOfItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" for example: 23.12"/>
+
 
         <Button
             android:id="@+id/addItemBtn"
@@ -23,6 +38,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="addElementToList"/>
+
+        <Button
+            android:id="@+id/backToMainView"
+            android:text="Back to main view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="backToMainBtn"/>
 
     </LinearLayout>
 
