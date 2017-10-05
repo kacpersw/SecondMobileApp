@@ -11,11 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends Activity {
-    private ArrayList<String> items;
-    private ArrayAdapter<String> itemsAdapter;
+    private List<ToDo> items;
+    //private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
     private Snackbar addMessage;
     private Intent formIntent;
@@ -26,10 +27,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initSingletons();
+
         lvItems = findViewById(R.id.lvItems);
-        items = new ArrayList<String>();
-        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        lvItems.setAdapter(itemsAdapter);
+        items = Singleton.getInstance().getToDos();
+        final ToDoListAdapter toDoListAdapter = new ToDoListAdapter(this, items);
+        lvItems.setAdapter(toDoListAdapter);
 
         formIntent = getIntent();
         if(formIntent.getBooleanExtra(NewElementToDoActivity.CAN_I_SHOW_POP_UP,false)==true){
@@ -37,25 +40,18 @@ public class MainActivity extends Activity {
             addMessage.show();
         }
 
-
-        initSingletons();
-        addElementsToList();
-        setupListViewListener();
-    }
-
-    private void setupListViewListener() {
         lvItems.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id) {
                         items.remove(pos);
-                        Singleton.removeElementFromList(pos);
+                        toDoListAdapter.notifyDataSetChanged();
 
                         context = getApplicationContext();
                         Toast toast = Toast.makeText(context, "Item deleted", Toast.LENGTH_LONG);
                         toast.show();
 
-                        itemsAdapter.notifyDataSetChanged();
+                        toDoListAdapter.notifyDataSetChanged();
                         return true;
                     }
                 });
@@ -66,14 +62,8 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    private void addElementsToList(){
-        for(ToDo x : Singleton.list){
-            items.add(x.toString());
-        }
-    }
-
     private void initSingletons(){
+
         Singleton.initInstance();
     }
-
 }

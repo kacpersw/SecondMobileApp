@@ -1,5 +1,6 @@
 package com.example.kacper.secondapp;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ToDo {
@@ -11,7 +12,17 @@ public class ToDo {
         _time = time;
     }
 
+    public String getType(){
+        return _type;
+    }
+
+    public String getDate(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        return format.format(_time);
+    }
+
     public String toString(){
-        return _type + " " + "Date: " + _time.toString();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        return _type + " \n" + "Date: " + format.format(_time);
     }
 }

@@ -37,6 +37,10 @@ public class Singleton {
         list.add(element);
     }
 
+    public static List<ToDo> getToDos(){
+        return list;
+    }
+
     public static void removeElementFromList(int item){
         list.remove(item);
     }
