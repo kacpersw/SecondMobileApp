@@ -18,11 +18,11 @@ public class Singleton {
 
             list = new ArrayList<ToDo>();
 
-            list.add(new ToDo("something", new Date()));
-            list.add(new ToDo("something2", new Date()));
-            list.add(new ToDo("something4", new Date()));
-            list.add(new ToDo("something3", new Date()));
-            list.add(new ToDo("something5", new Date()));
+            list.add(new ToDo("something", new Date(), false));
+            list.add(new ToDo("something2", new Date(), false));
+            list.add(new ToDo("something4", new Date(), false));
+            list.add(new ToDo("something3", new Date(), false));
+            list.add(new ToDo("something5", new Date(), false));
         }
     }
 

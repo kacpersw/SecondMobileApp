@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.text.InputFilter;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,23 +39,19 @@ public class NewElementToDoActivity extends Activity {
             public void validate(TextView textView, String text){
                 if(type.getText().toString().length()==0){
                     type.setError("Name is empty");
-                }else if(type.getText().toString().length()>=1){
-                    type.setError("First letter must be capitalized");
                 }
             }
         });
+
+        EditText edittext = findViewById(R.id.typeOfItem);
+        edittext.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
         type.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String firstLetter = type.getText().toString().substring(0,1).toUpperCase();
-                    try{
-                        type.setText(firstLetter + type.getText().toString().substring(1));
-                    }catch(Exception e){
-                        type.setText(firstLetter);
-                    }
-
+                    String bigLetters = type.getText().toString().toUpperCase();
+                    type.setText(bigLetters);
                 }
             }
         });
@@ -92,8 +91,12 @@ public class NewElementToDoActivity extends Activity {
             hour.setError("Hour format is invalid");
         }
 
+        CheckBox notification = findViewById(R.id.addNotification);
+        boolean addNotification = notification.isChecked();
+
         try{
-            Singleton.addElementToList(new ToDo(typeText, new Date(year-1900,month,day,hours,minutes)));
+            Singleton.addElementToList(new ToDo(typeText, new Date(year-1900,month,day,hours,minutes), addNotification));
+            notificationOn("sdsd");
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(CAN_I_SHOW_POP_UP, true);
             startActivity(intent);
@@ -110,5 +113,12 @@ public class NewElementToDoActivity extends Activity {
 
     private void initSingletons(){
         Singleton.initInstance();
+    }
+
+    private void notificationOn(String text){
+        NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                .setContentTitle("You have something to do now")
+                .setContentText(text);
+
     }
 }

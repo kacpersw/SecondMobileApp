@@ -23,13 +23,19 @@
             android:id="@+id/dateOfItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="for example: 2012.02.03"/>
+            android:hint="For example: 2012.02.03"/>
 
         <EditText
             android:id="@+id/hourOfItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint=" for example: 23.12"/>
+            android:hint="For example: 23.12"/>
+
+        <CheckBox
+            android:id="@+id/addNotification"
+            android:text="Add notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
         <Button

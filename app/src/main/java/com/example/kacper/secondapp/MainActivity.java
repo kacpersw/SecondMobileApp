@@ -5,18 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     private List<ToDo> items;
-    //private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
     private Snackbar addMessage;
     private Intent formIntent;
@@ -27,9 +32,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         initSingletons();
 
-        lvItems = findViewById(R.id.lvItems);
+        lvItems = (ListView) findViewById(R.id.lvItems);
         items = Singleton.getInstance().getToDos();
         final ToDoListAdapter toDoListAdapter = new ToDoListAdapter(this, items);
         lvItems.setAdapter(toDoListAdapter);
@@ -55,6 +63,20 @@ public class MainActivity extends Activity {
                         return true;
                     }
                 });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, NewElementToDoActivity.class);
+        startActivity(intent);
+        return true;
     }
 
     public void goToAddView(View view) {
