@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Singleton {
     private static Singleton instance;
-    public static List<ToDo> list;
+    private static List<ToDo> list;
 
     public static void initInstance(){
         if(instance == null){
@@ -18,11 +18,11 @@ public class Singleton {
 
             list = new ArrayList<ToDo>();
 
-            list.add(new ToDo("something", new Date(), false));
-            list.add(new ToDo("something2", new Date(), false));
-            list.add(new ToDo("something4", new Date(), false));
-            list.add(new ToDo("something3", new Date(), false));
-            list.add(new ToDo("something5", new Date(), false));
+            list.add(new ToDo("Do something", new Date(), false));
+            list.add(new ToDo("Do something 2", new Date(), false));
+            list.add(new ToDo("Do something 3", new Date(), false));
+            list.add(new ToDo("Do something 4", new Date(), false));
+            list.add(new ToDo("Do something 5", new Date(), false));
         }
     }
 

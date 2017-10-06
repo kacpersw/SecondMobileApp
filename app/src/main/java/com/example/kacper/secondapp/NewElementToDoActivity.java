@@ -83,7 +83,7 @@ public class NewElementToDoActivity extends Activity {
 
         int hours=-1;
         int minutes=-1;
-        
+
         try{
             String[] partsOfDate = dateText.split("\\.");
             day = Integer.valueOf(partsOfDate[2]);
@@ -91,6 +91,7 @@ public class NewElementToDoActivity extends Activity {
             year = Integer.valueOf(partsOfDate[0]);
         }catch(Exception e){
             date.setError("Date format is invalid");
+            return;
         }
 
         try{
@@ -99,6 +100,7 @@ public class NewElementToDoActivity extends Activity {
             minutes = Integer.valueOf(partsOfHour[1]);
         }catch(Exception e){
             hour.setError("Hour format is invalid");
+            return;
         }
 
         CheckBox notification = (CheckBox) findViewById(R.id.addNotification);
@@ -121,16 +123,19 @@ public class NewElementToDoActivity extends Activity {
                 Date time = new Date(year-1900,month-1,day,hours,minutes);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, time.getTime(), pendingIntent);
             }catch(Exception e){
-
+                return;
             }
         }
-
-        try{
-            Singleton.addElementToList(new ToDo(typeText, new Date(year-1900,month-1,day,hours,minutes), addNotification));
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(CAN_I_SHOW_POP_UP, true);
-            startActivity(intent);
-        }catch(Exception e){
+        if(type.getText().toString().length()==0){
+            type.setError("Name is empty");
+        }else{
+            try{
+                Singleton.addElementToList(new ToDo(typeText, new Date(year-1900,month-1,day,hours,minutes), addNotification));
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(CAN_I_SHOW_POP_UP, true);
+                startActivity(intent);
+            }catch(Exception e){
+            }
         }
     }
 

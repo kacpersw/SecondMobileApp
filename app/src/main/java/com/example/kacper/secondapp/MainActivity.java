@@ -1,8 +1,10 @@
 package com.example.kacper.secondapp;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -63,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,11 +78,22 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, NewElementToDoActivity.class);
-        startActivity(intent);
-        return true;
+
+        if(Objects.equals(item.getTitle(),"Add new to do")){
+            Intent intent = new Intent(this, NewElementToDoActivity.class);
+            startActivity(intent);
+            return true;
+
+            }else{
+                context = getApplicationContext();
+                Toast toast = Toast.makeText(context, "Items deleted", Toast.LENGTH_LONG);
+                toast.show();
+            }
+
+        return false;
     }
 
     public void goToAddView(View view) {
@@ -85,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initSingletons(){
-
         Singleton.initInstance();
     }
+
 }
