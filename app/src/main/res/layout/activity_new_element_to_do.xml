@@ -45,12 +45,6 @@
             android:layout_height="wrap_content"
             android:onClick="addElementToList"/>
 
-        <Button
-            android:id="@+id/backToMainView"
-            android:text="Back to main view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="backToMainBtn"/>
 
     </LinearLayout>
 

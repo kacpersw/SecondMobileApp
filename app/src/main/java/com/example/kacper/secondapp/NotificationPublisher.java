@@ -1,16 +1,17 @@
 package com.example.kacper.secondapp;
 
+/**
+ * Created by Kacper on 06.10.2017.
+ */
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-/**
- * Created by Kacper on 06.10.2017.
- */
-
 public class NotificationPublisher extends BroadcastReceiver {
+
     public static String NOTIFICATION_ID = "notification-id";
     public static String NOTIFICATION = "notification";
 
@@ -23,5 +24,4 @@ public class NotificationPublisher extends BroadcastReceiver {
         notificationManager.notify(id, notification);
 
     }
-
 }

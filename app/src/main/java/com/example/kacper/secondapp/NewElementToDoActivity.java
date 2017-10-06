@@ -1,8 +1,17 @@
 package com.example.kacper.secondapp;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.SystemClock;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
@@ -33,7 +42,7 @@ public class NewElementToDoActivity extends Activity {
 
         initSingletons();
 
-        final EditText type = findViewById(R.id.typeOfItem);
+        final EditText type = (EditText) findViewById(R.id.typeOfItem);
         type.addTextChangedListener(new TextValidator(type){
             @Override
             public void validate(TextView textView, String text){
@@ -43,7 +52,7 @@ public class NewElementToDoActivity extends Activity {
             }
         });
 
-        EditText edittext = findViewById(R.id.typeOfItem);
+        EditText edittext = (EditText) findViewById(R.id.typeOfItem);
         edittext.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
         type.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -57,14 +66,15 @@ public class NewElementToDoActivity extends Activity {
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void addElementToList(View view){
-        EditText type = findViewById(R.id.typeOfItem);
+        EditText type = (EditText) findViewById(R.id.typeOfItem);
         String typeText = type.getText().toString();
 
-        EditText date = findViewById(R.id.dateOfItem);
+        EditText date = (EditText) findViewById(R.id.dateOfItem);
         String dateText = date.getText().toString();
 
-        EditText hour = findViewById(R.id.hourOfItem);
+        EditText hour = (EditText) findViewById(R.id.hourOfItem);
         String hourText = hour.getText().toString();
 
         int day=-1;
@@ -73,7 +83,7 @@ public class NewElementToDoActivity extends Activity {
 
         int hours=-1;
         int minutes=-1;
-
+        
         try{
             String[] partsOfDate = dateText.split("\\.");
             day = Integer.valueOf(partsOfDate[2]);
@@ -91,34 +101,44 @@ public class NewElementToDoActivity extends Activity {
             hour.setError("Hour format is invalid");
         }
 
-        CheckBox notification = findViewById(R.id.addNotification);
+        CheckBox notification = (CheckBox) findViewById(R.id.addNotification);
         boolean addNotification = notification.isChecked();
 
+        if(addNotification){
+            Notification.Builder builder = new Notification.Builder(this);
+            builder.setContentText("Warning! " + typeText);
+            builder.setContentTitle("You have something to do");
+            builder.setSmallIcon(R.drawable.ic_android_black_24dp);
+
+            Intent intent = new Intent(this, NotificationPublisher.class);
+            intent.putExtra(NotificationPublisher.NOTIFICATION, builder.build());
+            intent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
+            try{
+                Date time = new Date(year-1900,month-1,day,hours,minutes);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, time.getTime(), pendingIntent);
+            }catch(Exception e){
+
+            }
+        }
+
         try{
-            Singleton.addElementToList(new ToDo(typeText, new Date(year-1900,month,day,hours,minutes), addNotification));
-            notificationOn("sdsd");
+            Singleton.addElementToList(new ToDo(typeText, new Date(year-1900,month-1,day,hours,minutes), addNotification));
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(CAN_I_SHOW_POP_UP, true);
             startActivity(intent);
         }catch(Exception e){
         }
-
-    }
-
-    public void backToMainBtn(){
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(CAN_I_SHOW_POP_UP, false);
-        startActivity(intent);
     }
 
     private void initSingletons(){
         Singleton.initInstance();
     }
 
-    private void notificationOn(String text){
-        NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-                .setContentTitle("You have something to do now")
-                .setContentText(text);
 
-    }
+
+
 }

@@ -43,8 +43,8 @@ public class ToDoListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View oneToDo = inflater.inflate(R.layout.listviewadapter, viewGroup, false);
 
-        TextView type = oneToDo.findViewById(R.id.title);
-        TextView time = oneToDo.findViewById(R.id.time);
+        TextView type = (TextView) oneToDo.findViewById(R.id.title);
+        TextView time = (TextView) oneToDo.findViewById(R.id.time);
 
         ToDo todo = (ToDo) getItem(i);
 
