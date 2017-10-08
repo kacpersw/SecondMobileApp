@@ -5,9 +5,5 @@
     <item android:id="@+id/addNewToDo"
         android:icon="@drawable/ic_stat_name"
         android:title="Add new to do" />
-    <item android:id="@+id/deleteDone"
-        android:icon="@drawable/ic_stat_name"
-        android:title="Delete" />
-
-
+    
 </menu>

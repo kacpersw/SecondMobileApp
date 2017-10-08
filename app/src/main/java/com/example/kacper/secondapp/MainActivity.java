@@ -86,13 +86,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, NewElementToDoActivity.class);
             startActivity(intent);
             return true;
-
-            }else{
-                context = getApplicationContext();
-                Toast toast = Toast.makeText(context, "Items deleted", Toast.LENGTH_LONG);
-                toast.show();
             }
-
         return false;
     }
 
